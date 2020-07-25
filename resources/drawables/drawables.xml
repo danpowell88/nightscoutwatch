@@ -1,0 +1,15 @@
+<drawables>
+    <bitmap id="LauncherIcon" filename="launcher_icon.png" />
+    <bitmap id="DoNotDisturbIcon" filename="donotdisturb.png" />
+    <bitmap id="DisconnectedIcon" filename="disconnected.png" />
+    <bitmap id="FortyFiveDown" filename="arrow-diagonaldown-24p.PNG" />
+    <bitmap id="FortyFiveUp" filename="arrow-diagonalup-24p.PNG" />
+    <bitmap id="SingleUp" filename="arrow-up-24p.PNG" />
+    <bitmap id="SingleDown" filename="arrow-down-24p.PNG" />
+    <bitmap id="DoubleUp" filename="arrow-doubleup-24p.PNG" />
+    <bitmap id="DoubleDown" filename="arrow-doubledown-24p.PNG" />
+    <bitmap id="Flat" filename="arrow-flat-24p.PNG" />
+    <bitmap id="NONE" filename="arrow-none-24p.PNG" />
+    <bitmap id="heartrate" filename="heartrate.PNG" />
+    <bitmap id="steps" filename="steps.PNG" />
+</drawables>

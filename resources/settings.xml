@@ -1,0 +1,88 @@
+<settings>
+    <setting propertyKey="@Properties.nsurl" title="@Strings.nsurl" prompt="@Strings.nsurlPrompt">
+        <settingConfig type="alphanumeric" required="false" /></setting>
+    <setting propertyKey="@Properties.offlineUrl" title="@Strings.offlineUrl" prompt="@Strings.offlineUrlPrompt">
+        <settingConfig type="alphanumeric" required="false" /></setting>
+    <setting propertyKey="@Properties.fetchMode" title="@Strings.fetchMode" prompt="@Strings.fetchModePrompt">
+        <settingConfig type="list" required="true">
+	    	    <listEntry value="0">@Strings.fetchModeNormal</listEntry>
+	            <listEntry value="1">@Strings.fetchModeNormalMin</listEntry>
+	            <listEntry value="2">@Strings.fetchModeDevice</listEntry>
+	            <listEntry value="3">@Strings.fetchModeDeviceMin1</listEntry>
+	            <listEntry value="4">@Strings.fetchModeDeviceMin2</listEntry>
+	</settingConfig></setting>
+    <setting propertyKey="@Properties.displaySeconds" title="@Strings.displaySeconds" prompt="@Strings.displaySecondsPrompt">
+        <settingConfig type="boolean" required="true" /></setting>
+	<setting propertyKey="@Properties.bgDisplay" title='@Strings.bgDisplay' prompt="@Strings.bgDisplayPrompt">
+	    	<settingConfig type="list" required="true">
+	    	    <listEntry value="0">@Strings.bgDisplayNormal</listEntry>
+	            <listEntry value="1">@Strings.bgDisplayMGDL</listEntry>
+	            <listEntry value="2">@Strings.bgDisplayMMOL</listEntry>
+	            <listEntry value="3">@Strings.bgDisplayRoman</listEntry>
+ 		        <listEntry value="4">@Strings.bgDisplayHEX</listEntry>
+<!--            <listEntry value="5">@Strings.bgDisplayHex</listEntry>        -->
+		        <listEntry value="6">@Strings.bgDisplaySCIENTIFIC</listEntry>
+<!--            <listEntry value="7">@Strings.bgDisplayScientific</listEntry> -->
+<!-- 	        <listEntry value="8">@Strings.bgDisplayOctal</listEntry>      -->
+	            <listEntry value="9">@Strings.bgDisplayZeroPad</listEntry>
+	            <listEntry value="10">@Strings.bgDisplayVersion</listEntry>
+	</settingConfig></setting>
+	<setting propertyKey="@Properties.fgColor" title='@Strings.fgColor' prompt="@Strings.fgColorPrompt">
+	    	<settingConfig type="list" required="true">
+	            <listEntry value="0">@Strings.fgCOLOR_WHITE</listEntry>
+	            <listEntry value="1">@Strings.fgCOLOR_LT_GRAY</listEntry>
+	            <listEntry value="2">@Strings.fgCOLOR_DK_GRAY</listEntry>
+	            <listEntry value="3">@Strings.fgCOLOR_BLACK</listEntry>
+	            <listEntry value="4">@Strings.fgCOLOR_RED</listEntry>
+	            <listEntry value="5">@Strings.fgCOLOR_DK_RED</listEntry>
+	            <listEntry value="6">@Strings.fgCOLOR_ORANGE</listEntry>
+	            <listEntry value="7">@Strings.fgCOLOR_YELLOW</listEntry>
+	            <listEntry value="8">@Strings.fgCOLOR_GREEN</listEntry>
+	            <listEntry value="9">@Strings.fgCOLOR_DK_GREEN</listEntry>
+	            <listEntry value="10">@Strings.fgCOLOR_BLUE</listEntry>
+	            <listEntry value="11">@Strings.fgCOLOR_DK_BLUE</listEntry>
+	            <listEntry value="12">@Strings.fgCOLOR_PURPLE</listEntry>
+	            <listEntry value="13">@Strings.fgCOLOR_PINK</listEntry>
+	            <listEntry value="14">@Strings.fgCOLOR_RANDOM</listEntry>
+	</settingConfig></setting>
+	<setting propertyKey="@Properties.bgColor" title='@Strings.bgColor' prompt="@Strings.bgColorPrompt">
+	    	<settingConfig type="list" required="true">
+	            <listEntry value="0">@Strings.fgCOLOR_WHITE</listEntry>
+	            <listEntry value="1">@Strings.fgCOLOR_LT_GRAY</listEntry>
+	            <listEntry value="2">@Strings.fgCOLOR_DK_GRAY</listEntry>
+	            <listEntry value="3">@Strings.fgCOLOR_BLACK</listEntry>
+	            <listEntry value="4">@Strings.fgCOLOR_RED</listEntry>
+	            <listEntry value="5">@Strings.fgCOLOR_DK_RED</listEntry>
+	            <listEntry value="6">@Strings.fgCOLOR_ORANGE</listEntry>
+	            <listEntry value="7">@Strings.fgCOLOR_YELLOW</listEntry>
+	            <listEntry value="8">@Strings.fgCOLOR_GREEN</listEntry>
+	            <listEntry value="9">@Strings.fgCOLOR_DK_GREEN</listEntry>
+	            <listEntry value="10">@Strings.fgCOLOR_BLUE</listEntry>
+	            <listEntry value="11">@Strings.fgCOLOR_DK_BLUE</listEntry>
+	            <listEntry value="12">@Strings.fgCOLOR_PURPLE</listEntry>
+	            <listEntry value="13">@Strings.fgCOLOR_PINK</listEntry>
+	            <listEntry value="14">@Strings.fgCOLOR_RANDOM</listEntry>
+	</settingConfig></setting>
+    <setting propertyKey="@Properties.watchBatThresh" title="@Strings.watchBatThresh" prompt="@Strings.watchBatThreshPrompt">
+        <settingConfig type="numeric" required="true" /></setting>
+<!--
+    <setting propertyKey="@Properties.loopTimeThresh" title="@Strings.loopTimeThresh" prompt="@Strings.loopTimeThreshPrompt">
+        <settingConfig type="numeric" required="true" /></setting>
+    <setting propertyKey="@Properties.bgTimeThresh" title="@Strings.bgTimeThresh" prompt="@Strings.bgTimeThreshPrompt">
+        <settingConfig type="numeric" required="true" /></setting>
+-->
+    <setting propertyKey="@Properties.bgLowThresh" title="@Strings.bgLowThresh" prompt="@Strings.bgLowThreshPrompt">
+        <settingConfig type="numeric" required="true" /></setting>
+    <setting propertyKey="@Properties.bgHighThresh" title="@Strings.bgHighThresh" prompt="@Strings.bgHighThreshPrompt">
+        <settingConfig type="numeric" required="true" /></setting>
+    <setting propertyKey="@Properties.pumpBatThreshPct" title="@Strings.pumpBatThreshPct" prompt="@Strings.pumpBatThreshPctPrompt">
+        <settingConfig type="numeric" required="true" /></setting>
+    <setting propertyKey="@Properties.pumpBatThreshV" title="@Strings.pumpBatThreshV" prompt="@Strings.pumpBatThreshVPrompt">
+        <settingConfig type="numeric" required="true" /></setting>
+    <setting propertyKey="@Properties.upBatThresh" title="@Strings.upBatThresh" prompt="@Strings.upBatThreshPrompt">
+        <settingConfig type="numeric" required="true" /></setting>
+    <setting propertyKey="@Properties.reservoirThresh" title="@Strings.reservoirThresh" prompt="@Strings.reservoirThreshPrompt">
+        <settingConfig type="numeric" required="true" /></setting>
+    <setting propertyKey="@Properties.cageThresh" title="@Strings.cageThresh" prompt="@Strings.cageThreshPrompt">
+        <settingConfig type="numeric" required="true" /></setting>
+</settings>

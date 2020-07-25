@@ -1,0 +1,22 @@
+<properties>
+    <property id="appVersion" type="string">0.2.4</property>
+    <property id="nsurl" type="string"></property>
+    <property id="offlineUrl" type="string"></property>
+    <property id="fetchMode" type="number">3</property>
+    <property id="displaySeconds" type="boolean">true</property>
+    <property id="bgDisplay" type="number">0</property>
+    <property id="fgColor" type="number">0</property>
+    <property id="bgColor" type="number">3</property>
+    <property id="watchBatThresh" type="number">20</property>
+<!--
+    <property id="loopTimeThresh" type="number">15</property>
+    <property id="bgTimeThresh" type="number">15</property>
+    -->
+    <property id="bgLowThresh" type="number">70</property>
+    <property id="bgHighThresh" type="number">240</property>
+    <property id="pumpBatThreshPct" type="number">25</property>
+    <property id="pumpBatThreshV" type="float">1.25</property>
+    <property id="upBatThresh" type="number">25</property>
+    <property id="reservoirThresh" type="number">20</property>
+    <property id="cageThresh" type="number">72</property>
+ </properties>

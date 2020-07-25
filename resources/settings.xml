@@ -27,6 +27,8 @@
 	            <listEntry value="9">@Strings.bgDisplayZeroPad</listEntry>
 	            <listEntry value="10">@Strings.bgDisplayVersion</listEntry>
 	</settingConfig></setting>
+    <setting propertyKey="@Properties.syncAtSecond" title="@Strings.syncAtSecond" prompt="@Strings.syncAtSecondPrompt">
+        <settingConfig type="numeric" required="true" /></setting>
 	<setting propertyKey="@Properties.fgColor" title='@Strings.fgColor' prompt="@Strings.fgColorPrompt">
 	    	<settingConfig type="list" required="true">
 	            <listEntry value="0">@Strings.fgCOLOR_WHITE</listEntry>

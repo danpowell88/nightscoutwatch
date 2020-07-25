@@ -29,12 +29,21 @@ var OSDATA="osdata-nsw";
 var OSCHART="oschart-nsw";
 
 var partialUpdatesAllowed = false;
-var viewVersion = "0.2.4";
+var viewVersion = "0.2.5";
 class bgbgView extends Ui.WatchFace {
 
     var width,height;
     var dndIcon, disconnIcon, hrIcon, stepIcon;
-    var dirSwitch = {};
+    const arrow = [[4.0/8, 0], [7.0/8, 3.0/7], [5.0/8, 3.0/7], [5.0/8, 7.0/7], [3.0/8, 7.0/7], [3.0/8, 3.0/7], [1.0/8, 3.0/7], [4.0/8, 0]];
+    const doubleArrow = [[8.0/17, 3.0/7], [5.0/17, 3.0/7], [5.0/17, 7.0/7], [3.0/17, 7.0/7], [3.0/17, 3.0/7], [0, 3.0/7], [4.0/17, 0], [8.0/17, 3.0/7],
+    				   [17.0/17, 3.0/7], [14.0/17, 3.0/7], [14.0/17, 7.0/7], [12.0/17, 7.0/7], [12.0/17, 3.0/7], [9.0/17, 3.0/7], [13.0/17, 0], [17.0/17, 3.0/7]];
+    const dirSwitch = { "SingleUp" => [0, arrow],
+                      "DoubleUp" => [0, doubleArrow],
+                      "FortyFiveUp" => [45, arrow],
+                      "FortyFiveDown" => [135, arrow],
+                      "SingleDown" => [180, arrow],
+                      "DoubleDown" => [180, doubleArrow],
+                      "Flat" => [90, arrow]};
     var secondsX = 0;
     var secondsY = 0;
     var secondsClearY = 0;
@@ -191,8 +200,7 @@ class bgbgView extends Ui.WatchFace {
 	}
 
     function setBgData(data) {
-        //System.println("setBgData="+data);
-        System.println("setBgData");
+        System.println("setBgData="+data);
         if (myHasKey(data, "blefail")) {
         	bgdata["blefail"] = true;
         } else {
@@ -462,7 +470,6 @@ class bgbgView extends Ui.WatchFace {
             		isMgdl = false;
             	}
             }
-
             if (myHasKey(data[0], "sgv") &&
                 myHasKey(data[0], "date") &&
                 myHasKey(data[0], "direction")
@@ -477,7 +484,8 @@ class bgbgView extends Ui.WatchFace {
                 }
                 direction = data[0]["direction"].toString();
                 delta = "N/A";
-                if (myHasKey(data[1], "sgv") &&
+                if ((data.size() > 2) &&
+                	myHasKey(data[1], "sgv") &&
                     myHasKey(data[1], "date") &&
                     myHasKey(data[2], "sgv") &&
                     myHasKey(data[2], "date")) {
@@ -604,8 +612,9 @@ class bgbgView extends Ui.WatchFace {
 //        return !setupReqd;
     }
 
-    function initialize() {
+    function initialize(preViewData) {
     	//myPrintLn("view.initialize(), ctr=" + ctr); ctr++;
+    	Sys.println("view.initialize(), version="+viewVersion);
 
         screenShape = Sys.getDeviceSettings().screenShape;
 
@@ -628,6 +637,11 @@ class bgbgView extends Ui.WatchFace {
         var now=Sys.getClockTime();
         var ts=now.hour+":"+now.min.format("%02d");
         //Sys.println("From OS: data="+bgdata+" at "+ts);
+
+        if (preViewData != null) {
+        	Sys.println("got pre-view data");
+	        setBgData(preViewData);
+        }
     }
 
     // Load your resources here
@@ -647,14 +661,6 @@ class bgbgView extends Ui.WatchFace {
         } else {
             disconnIcon = null;
         }
-        dirSwitch = { "SingleUp" => Ui.loadResource(Rez.Drawables.SingleUp),
-                          "DoubleUp" => Ui.loadResource(Rez.Drawables.DoubleUp),
-                          "FortyFiveUp" => Ui.loadResource(Rez.Drawables.FortyFiveUp),
-                          "FortyFiveDown" => Ui.loadResource(Rez.Drawables.FortyFiveDown),
-                          "SingleDown" => Ui.loadResource(Rez.Drawables.SingleDown),
-                          "DoubleDown" => Ui.loadResource(Rez.Drawables.DoubleDown),
-                          "Flat" => Ui.loadResource(Rez.Drawables.Flat),
-                          "NONE" => Ui.loadResource(Rez.Drawables.NONE) };
 
 		var hasHR = ((Toybox has :ActivityMonitor) && (ActivityMonitor has :HeartRateIterator)) ? true : false;
 		if (hasHR) {
@@ -1170,6 +1176,24 @@ class bgbgView extends Ui.WatchFace {
 		return newStepStr;
 	}
 
+	function transformCoords(coords, degrees, size, centerPoint) {
+        var cos = Math.cos(Math.toRadians(degrees));
+        var sin = Math.sin(Math.toRadians(degrees));
+        var result = [];
+
+        // Transform the coordinates
+        for (var i = 0; i < coords.size(); i += 1) {
+            var x = ((coords[i][0] - 0.5) * cos) - ((coords[i][1] - 0.5) * sin);
+            var y = ((coords[i][0] - 0.5) * sin) + ((coords[i][1] - 0.5) * cos);
+            x = (x + 0.5) * size + 0.5;
+            y = (y + 0.5) * size + 0.5;
+
+            result.add([centerPoint[0] + x, centerPoint[1] + y]);
+        }
+
+        return result;
+	}
+
     // Update the view
     function onUpdate(dc) {
         // Get and show the current time
@@ -1455,10 +1479,13 @@ class bgbgView extends Ui.WatchFace {
                 // - log bg and calc. delta
             }
 
-            var directionIcon = null;
+            var angle = null;
+            var poly = null;
             if (myHasKey(bgdata, "direction")) {
-                if (myHasKey(dirSwitch, bgdata["direction"])) {
-                    directionIcon = dirSwitch[bgdata["direction"]];
+            	var dirStr = bgdata["direction"];
+                if (myHasKey(dirSwitch, dirStr)) {
+		            angle = dirSwitch[dirStr][0];
+		            poly = dirSwitch[dirStr][1];
                 }
             } else {
                 // - pick direction based on delta (or further-back-in-time delta)
@@ -1485,14 +1512,18 @@ class bgbgView extends Ui.WatchFace {
             shadowText(dc, offset + (width/2) - (bitmapDim/2) - 5,directionLine,directionFont,
                         elapsed,
                         Gfx.TEXT_JUSTIFY_RIGHT);
+            mySetColor(dc, auxColorVal,Gfx.COLOR_TRANSPARENT);
             shadowText(dc, offset + (width/2) + (bitmapDim/2) + 3,directionLine,directionFont,
                         delta,
                         Gfx.TEXT_JUSTIFY_LEFT);
             dc.clearClip();
-            if (null != directionIcon) {
-                dc.drawBitmap(offset + (width/2) + dirHorzOffset, directionLine + dirVertOffset, directionIcon);
+            if ((null != angle) && (null != poly)) {
+            	var dirIconX = offset + (width/2) + dirHorzOffset + 4;
+            	var dirIconY = directionLine + dirVertOffset + 4;
+            	var dirSize = 16;
+	            var polyXform = transformCoords(poly, angle, dirSize, [dirIconX, dirIconY]);
+	 	        dc.fillPolygon(polyXform);
             }
-            mySetColor(dc, auxColorVal,Gfx.COLOR_TRANSPARENT);
         }   // bgdata != null
 
 		clipText(dc, elapsedLine,elapsedFont);

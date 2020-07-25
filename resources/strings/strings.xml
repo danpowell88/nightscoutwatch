@@ -13,6 +13,8 @@
     <string id="fetchModeDeviceMin2">Pump, loop minimal display</string>
     <string id="displaySeconds">Display seconds</string>
     <string id="displaySecondsPrompt">Seconds will not be available on some devices</string>
+    <string id="syncAtSecond">Seconds past each 5 minutes of time to refresh BG data</string>
+    <string id="syncAtSecondPrompt">Set between 0 and 299, -1 for auto-sync</string>
     <string id="bgDisplay">BG display mode</string>
     <string id="bgDisplayPrompt">Customize how your BG is displayed</string>
     <string id="bgDisplayNormal">Normal, use data source units</string>

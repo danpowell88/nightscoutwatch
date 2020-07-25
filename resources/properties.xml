@@ -1,10 +1,11 @@
 <properties>
-    <property id="appVersion" type="string">0.2.4</property>
+    <property id="appVersion" type="string">0.2.5</property>
     <property id="nsurl" type="string"></property>
     <property id="offlineUrl" type="string"></property>
     <property id="fetchMode" type="number">3</property>
     <property id="displaySeconds" type="boolean">true</property>
     <property id="bgDisplay" type="number">0</property>
+    <property id="syncAtSecond" type="number">-1</property>
     <property id="fgColor" type="number">0</property>
     <property id="bgColor" type="number">3</property>
     <property id="watchBatThresh" type="number">20</property>

@@ -39,9 +39,9 @@ class BgbgServiceDelegate extends Toybox.System.ServiceDelegate {
         fetchModeDeviceMin2 = 4 }
 
     function printMem() {
-        //var myStats = System.getSystemStats();
-        //Sys.println("memory: total: " + myStats.totalMemory + ", used: " + myStats.usedMemory + ", free: " + myStats.freeMemory);
-        //Sys.println("free memory: " + System.getSystemStats().freeMemory);
+        ////var myStats = System.getSystemStats();
+        ////Sys.println("memory: total: " + myStats.totalMemory + ", used: " + myStats.usedMemory + ", free: " + myStats.freeMemory);
+        ////Sys.println("free memory: " + System.getSystemStats().freeMemory);
     }
 
     function initialize() {
@@ -120,21 +120,17 @@ class BgbgServiceDelegate extends Toybox.System.ServiceDelegate {
             }
             // Clean (i.e., prune) the incoming data, instead of interpreting or copying it
             // in this way we can use as little memory/instructions as possible in the background process
-            //Sys.println("data - before: " + data);
             cleanHashOne(data, "basal", "display");
             cleanHashOne(data, "delta", "display");
             var cleanRawbg = {"mgdl"=>1, "noiseLabel"=>1};
             cleanHashMany(data, "rawbg", cleanRawbg);
             var cleanCage = {"age"=>1, "found"=>1};
             cleanHashMany(data, "cage", cleanCage);
-            //Sys.println("data - after: " + data);
 
-            //Sys.println("bgdata - before: " + bgdata);
 	    	for (var i=0; i<data.keys().size(); i++) {
 				var key1 = data.keys()[i];
 	            bgdata["prop"][key1] = data[key1];
 			}
-            //Sys.println("bgdata - after: " + bgdata);
             //Sys.println("propReq: " + propReq);
             printMem();
             if (propReq.size() > 0) {
@@ -152,7 +148,7 @@ class BgbgServiceDelegate extends Toybox.System.ServiceDelegate {
         receiveCtr--;
         if (receiveCtr == 0) {
             printMem();
-	        //Sys.println("out OnReceiveProperties - exit");
+	        Sys.println("out OnReceiveProperties - exit");
         	//Sys.println("pr bgdata="+bgdata);
             Background.exit(bgdata);
         }
@@ -166,7 +162,6 @@ class BgbgServiceDelegate extends Toybox.System.ServiceDelegate {
             (data.size() > 0) &&
             (data[0] instanceof Dictionary)) {
 
-//			Sys.println("data - before: " + data);
             var cleanDevice = {"loop"=>1, "pump"=>1, "uploader"=>1, "uploaderBattery"=>1, "openaps"=>1};
             cleanHashZero(data[0], cleanDevice);
 
@@ -202,7 +197,6 @@ class BgbgServiceDelegate extends Toybox.System.ServiceDelegate {
 	            cleanHashMany(data[0]["openaps"], "enacted", cleanEnacted);
 	            var cleanSuggested = {"timestamp"=>1, "eventualBG"=>1, "COB"=>1};
 	            cleanHashMany(data[0]["openaps"], "suggested", cleanSuggested);
-//				Sys.println("data - after: " + data);
 
 	            bgdata["dev1"] = data;
             } else {
@@ -252,10 +246,14 @@ class BgbgServiceDelegate extends Toybox.System.ServiceDelegate {
                 data[0].hasKey("direction")
                 ) {
                 elapsedMills = data[0]["date"];
+	            //Sys.println("valid data: " + data);
+            //} else {
+	            //Sys.println("invalid data: " + data);
             }
             bgdata["elapsedMills"] = elapsedMills;
         } else {
             Sys.println("SGV resp: " + responseCode.toString());
+            //Sys.println("data: " + data);
             if ((reqNum >= 4 /*maxRequests*/) || !myWebRequest(false, 0, false)) {
 	            bgdata["httpfail"] = true;
 	            if (responseCode == Communications.BLE_CONNECTION_UNAVAILABLE) {
@@ -266,7 +264,7 @@ class BgbgServiceDelegate extends Toybox.System.ServiceDelegate {
 		receiveCtr--;
         if (receiveCtr == 0) {
             printMem();
-            //Sys.println("out OnReceiveSGV - exit");
+            Sys.println("out OnReceiveSGV - exit, bgdata="+bgdata);
 	        Background.exit(bgdata);
         }
         //Sys.println("out OnReceiveSGV");
@@ -355,6 +353,10 @@ class BgbgServiceDelegate extends Toybox.System.ServiceDelegate {
 	        }
 	        url = url + "/sgv.json?count=3";
         }
+        //url = "https://tynbendad.github.io/pumptest/api/v1/xdrip-other-sgv.json";
+        //url = "https://tynbendad.github.io/pumptest/api/v1/xdrip-g4-sgv.json";
+        //url = "https://tynbendad.github.io/pumptest/api/v1/nightscout-sgv.json";
+        //url = "https://tynbendad.github.io/pumptest/api/v1/tomato1.json";
         return url;
     }
 
@@ -364,7 +366,7 @@ class BgbgServiceDelegate extends Toybox.System.ServiceDelegate {
         //    url = "https://tynbendad.github.io/pumptest/api/v2/properties/simpletest2.json";   // for testing
         //Sys.println("fetching url: " + url);
         if (ns && !url.equals("")) {
-	        //	        Sys.println("ns url: " + url);
+	        //Sys.println("ns url: " + url);
             receiveCtr++;
     		reqNum++;
             if (fetchMode >= fetchModeDevice) {
@@ -379,7 +381,7 @@ class BgbgServiceDelegate extends Toybox.System.ServiceDelegate {
         } else {
 	        url = makeOfflineURL();
             if (!url.equals("")) {
-                //                Sys.println("ol url: " + url.toString());
+                //Sys.println("ol url: " + url.toString());
 	            receiveCtr++;
 	    		reqNum++;
 	            //Sys.println("initial SGV request");
@@ -395,12 +397,12 @@ class BgbgServiceDelegate extends Toybox.System.ServiceDelegate {
 	}
 
     function onTemporalEvent() {
-        //Sys.println("in onTemporalEvent");
+        Sys.println("in onTemporalEvent");
 		var fetchMode = Application.getApp().getProperty("fetchMode");
 		if (fetchMode == null) { fetchMode = 3; }
         receiveCtr = 0;
         reqNum = 0;
         myWebRequest(true, fetchMode, false);
-        //Sys.println("out onTemporalEvent");
+        Sys.println("out onTemporalEvent");
     }
 }
